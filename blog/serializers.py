@@ -50,6 +50,9 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id','title','content','category','status']
 
+    def create(self,validated_data):
+        return Post.objects.create(**validated_data)
+
     # def get_category_name(self,obj):
     #     return obj.category.name
 
