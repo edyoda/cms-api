@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from blog.models import Category
 from blog.models import Post
+from rest_framework.validators import UniqueValidator
 
 
 # class CategorySerializer(serializers.Serializer):
@@ -58,12 +59,17 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    
+    title = serializers.CharField(max_length = 255, validators = [UniqueValidator(queryset=Post.objects.all())])
     category_name = serializers.SerializerMethodField()
     
     class Meta:
         model = Post
-        fields = ['id','title','content','category','status','category_name']
+        fields = ['id','title','content','category','status','category_name','image']
+
+    def validate_title(self,title):
+        if len(title) > 5:
+            raise serializers.ValidationError("Tittle should be less than 5")
+        return title 
 
 
     def get_category_name(self,obj):

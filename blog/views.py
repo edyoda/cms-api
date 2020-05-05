@@ -5,6 +5,7 @@ from blog.serializers import CategorySerializer,PostSerializer
 from blog.models import Category,Post
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework import viewsets
 # Create your views here.
 
 class CategoryAPIView(APIView):
@@ -72,9 +73,19 @@ class PostRetrievUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
 
 
+
+
 # Post.objects.create(title = "",content = "",category = )
 
 
 # Ser(obj) => data 
 
 # Ser(data) => .save() => craete a object 
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
